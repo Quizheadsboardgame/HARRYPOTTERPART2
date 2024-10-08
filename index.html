@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HARRY POTTER: PART ONE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: transparent;
+            color: black;
+            text-align: center;
+        }
+
+        #quiz-container {
+            background-color: transparent;
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        #logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .answer {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        #next-button {
+            background-color: white;
+            color: black;
+            border: 2px solid #ff9900;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #next-button:hover {
+            background-color: #ffcc00;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fadeOut {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        .fadeIn {
+            animation: fadeIn 0.5s forwards;
+        }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <img id="logo" src="https://i.imgur.com/cyZ0Z21.png" alt="George Michael Logo">
+    <h1>HARRY POTTER: PART ONE</h1>
+    <div id="question-container">
+        <div class="question" id="question">Loading question...</div>
+        <div class="answer" id="answer">Loading answer...</div>
+        <button id="next-button" onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+ { question: "Who is the author of the Harry Potter series?", answer: "J.K. Rowling." },
+        { question: "What is the name of Harry Potter's pet owl?", answer: "Hedwig." },
+        { question: "Which house at Hogwarts does Harry Potter belong to?", answer: "Gryffindor." },
+        { question: "What is the full name of the school that Harry attends?", answer: "Hogwarts School of Witchcraft and Wizardry." },
+        { question: "Who is the headmaster of Hogwarts during most of the series?", answer: "Albus Dumbledore." },
+        { question: "What is the name of the dark wizard that Harry must defeat?", answer: "Lord Voldemort." },
+        { question: "Which spell is used to disarm an opponent?", answer: "Expelliarmus." },
+        { question: "What is the name of the potion that grants good luck?", answer: "Felix Felicis (also known as Liquid Luck)." },
+        { question: "Who teaches Potions at Hogwarts in Harry's first year?", answer: "Severus Snape." },
+        { question: "What creature is used as the guardian of the entrance to the Gryffindor common room?", answer: "The Fat Lady." },
+        { question: "What is the name of Harry’s godfather?", answer: "Sirius Black." },
+        { question: "What position does Harry play on the Gryffindor Quidditch team?", answer: "Seeker." },
+        { question: "What spell is used to produce a Patronus?", answer: "Expecto Patronum." },
+        { question: "What magical object shows a person's deepest desire?", answer: "The Mirror of Erised." },
+        { question: "Which magical creature can only be seen by those who have witnessed death?", answer: "Thestrals." },
+        { question: "What does the spell 'Alohomora' do?", answer: "Unlocks doors." },
+        { question: "What is the name of the Weasley family's house?", answer: "The Burrow." },
+        { question: "Who is the keeper of keys and grounds at Hogwarts?", answer: "Rubeus Hagrid." },
+        { question: "What magical sport is played on broomsticks?", answer: "Quidditch." },
+        { question: "Who is the ghost of Gryffindor House?", answer: "Nearly Headless Nick (Sir Nicholas de Mimsy-Porpington)." },
+        { question: "What does Hermione use to attend multiple classes at once in her third year?", answer: "A Time-Turner." },
+        { question: "What are the four Hogwarts houses?", answer: "Gryffindor, Hufflepuff, Ravenclaw, and Slytherin." },
+        { question: "Which character is known for their iconic line, 'It’s leviosa, not leviosar!'?", answer: "Hermione Granger." },
+        { question: "What is the name of the potion that allows a person to take on the physical appearance of someone else?", answer: "Polyjuice Potion." },
+        { question: "Who is the author of the book 'Magical Theory' used in Hogwarts?", answer: "Adalbert Waffling." },
+        { question: "What is the name of Voldemort's snake?", answer: "Nagini." },
+        { question: "Who was the Half-Blood Prince?", answer: "Severus Snape." },
+        { question: "What is Harry's middle name?", answer: "James." },
+        { question: "What magical object is used to store memories?", answer: "A Pensieve." },
+        { question: "What is the name of the Weasley twins' joke shop?", answer: "Weasleys' Wizard Wheezes." },
+        { question: "What creature does Harry face in the Chamber of Secrets?", answer: "A Basilisk." },
+        { question: "Which spell creates a shield charm?", answer: "Protego." },
+        { question: "What is the name of Hagrid's three-headed dog?", answer: "Fluffy." },
+        { question: "What position does Ron play on the Gryffindor Quidditch team?", answer: "Keeper." },
+        { question: "What is the name of the device that reveals the location of a person's hidden soul?", answer: "The Horcrux." },
+        { question: "Who teaches Defense Against the Dark Arts in Harry's fifth year?", answer: "Dolores Umbridge." },
+        { question: "What is the name of the forbidden forest near Hogwarts?", answer: "The Forbidden Forest." },
+        { question: "Which spell is used to conjure light at the tip of a wand?", answer: "Lumos." },
+        { question: "What is the name of the wizarding bank?", answer: "Gringotts Wizarding Bank." },
+        { question: "Who is the head of Slytherin House?", answer: "Severus Snape." },
+        { question: "What is the name of Ron's pet rat?", answer: "Scabbers (who is actually Peter Pettigrew)." },
+        { question: "Who is the main villain in the 'Harry Potter and the Goblet of Fire'?", answer: "Lord Voldemort." },
+        { question: "What is the name of the spell that allows wizards to Apparate?", answer: "Apparition." },
+        { question: "Which character is known for their ability to transform into a cat?", answer: "Minerva McGonagall." },
+        { question: "What does the potion Amortentia do?", answer: "It causes intense infatuation or love." },
+        { question: "What is the name of the final book in the Harry Potter series?", answer: "Harry Potter and the Deathly Hallows." },
+        { question: "What are the names of Harry's parents?", answer: "James and Lily Potter." },
+        { question: "What is the name of the house elf that serves the Malfoy family?", answer: "Dobby." },
+        { question: "What does 'Muggle' refer to?", answer: "A non-magical person." },
+        { question: "What does the spell 'Stupefy' do?", answer: "Stuns the target." },
+        { question: "What are the names of the four founders of Hogwarts?", answer: "Godric Gryffindor, Helga Hufflepuff, Rowena Ravenclaw, Salazar Slytherin." },
+        { question: "Who is the Keeper of the Forbidden Forest?", answer: "Hagrid." },
+        { question: "What is the name of the potion that can make someone tell the truth?", answer: "Veritaserum." },
+        { question: "Who was Harry's first crush?", answer: "Cho Chang." },
+        { question: "What are the Deathly Hallows?", answer: "The Elder Wand, the Resurrection Stone, and the Invisibility Cloak." },
+        { question: "Which spell is used to summon objects?", answer: "Accio." },
+        { question: "What is the name of Ron's older brother who works at Gringotts?", answer: "Bill Weasley." },
+        { question: "What does the term 'Quidditch' refer to?", answer: "A wizarding sport played on broomsticks." },
+        { question: "Who teaches Care of Magical Creatures in Harry's third year?", answer: "Rubeus Hagrid." },
+        { question: "What is the magical object that allows wizards to travel through time?", answer: "The Time-Turner." },
+        { question: "What is the name of the Weasley sister who becomes a professional Quidditch player?", answer: "Ginny Weasley." },
+        { question: "What is the name of the secret society that fights against Voldemort?", answer: "The Order of the Phoenix." },
+        { question: "Which spell creates a Patronus?", answer: "Expecto Patronum." },
+        { question: "What is the name of Dumbledore's phoenix?", answer: "Fawkes." },
+        { question: "Who is the head of Hufflepuff House?", answer: "Professor Pomona Sprout." },
+        { question: "What is the name of the plant that Hermione uses to help Harry breathe underwater during the Triwizard Tournament?", answer: "Gillyweed." },
+        { question: "How do Lily and Snape meet for the first time?", answer: "Snape lived in the same town and introduced himself to Lily after he saw her doing magic." },
+        { question: "How many Horcruxes did Voldemort create intentionally?", answer: "Six: Tom Riddle's Diary, Marvolo Gaunt's Ring, Salazar Slytherin's Locket, Helga Hufflepuff's Cup, Rowena Ravenclaw's Diadem, and Nagini the snake." },
+        { question: "What is the primary ingredient in Polyjuice potion?", answer: "The hair of the person you want to transform into." },
+        { question: "What is the correct birth order of the Weasley children?", answer: "Bill, Charlie, Percy, Fred and George, Ron, Ginny." },
+        { question: "What is the name of the magical map that shows the entire layout of Hogwarts?", answer: "The Marauder's Map." },
+    ];
+
+    let currentQuestionIndex = 0;
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    shuffle(quizData);
+    showQuestion();
+
+    function showQuestion() {
+        const questionContainer = document.getElementById("question");
+        const answerContainer = document.getElementById("answer");
+
+        questionContainer.innerText = quizData[currentQuestionIndex].question;
+        answerContainer.innerText = "Loading answer...";
+
+        answerContainer.classList.remove("fadeIn");
+        answerContainer.classList.add("fadeOut");
+
+        setTimeout(() => {
+            answerContainer.innerText = quizData[currentQuestionIndex].answer;
+            answerContainer.classList.remove("fadeOut");
+            answerContainer.classList.add("fadeIn");
+        }, 500);
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < quizData.length) {
+            showQuestion();
+        } else {
+            const questionContainer = document.getElementById("question");
+            const answerContainer = document.getElementById("answer");
+            questionContainer.innerText = "Thank you for playing!";
+            answerContainer.innerText = "";
+            document.getElementById("next-button").style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
